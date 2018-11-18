@@ -43,6 +43,7 @@
 
 typedef int (*ReedsSheppPathSamplingCallback)(double q[3], void* user_data);
 typedef int (*ReedsSheppPathTypeCallback)(int t, void* user_data);
+typedef int (*ReedsSheppPathTypeNLenCallback)(double t, void* user_data);
 
 class ReedsSheppStateSpace
 {
@@ -70,6 +71,8 @@ public:
         double length_[5];
         /** Total length */
         double totalLength_;
+
+        double _t, _u, _v, _w, _x;
     };
 
     ReedsSheppStateSpace(double turningRadius) : rho_(turningRadius) {}
@@ -77,6 +80,8 @@ public:
     double distance(double q0[3], double q1[3]);
 
     void type(double q0[3], double q1[3], ReedsSheppPathTypeCallback cb, void* user_data);
+    
+    void type_n_len(double q0[3], double q1[3], ReedsSheppPathTypeNLenCallback cb, void* user_data);
 
     void sample(double q0[3], double q1[3], double step_size, ReedsSheppPathSamplingCallback cb, void* user_data);
 

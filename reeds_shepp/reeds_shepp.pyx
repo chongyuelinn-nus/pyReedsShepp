@@ -37,7 +37,7 @@
 
 
 cimport cython
-from core cimport ReedsSheppStateSpace, sample_cb, type_cb
+from core cimport ReedsSheppStateSpace, sample_cb, type_cb, type_n_len_cb
 
 LEFT = 1
 STRAIGHT = 2
@@ -80,6 +80,17 @@ cdef class PyReedsSheppPath:
         self.thisptr.type(self._q0, self._q1, type_cb, <void*>f)
         return tuple(ts)
 
+    def type_n_len(self):
+        ts = []
+        
+        def f(t):
+            # if t is not 0 : ts.append(t)
+            ts.append(t)
+            return 0
+
+        self.thisptr.type_n_len(self._q0, self._q1, type_n_len_cb, <void*>f)
+        return tuple(ts)
+
 
 def path_length(q0, q1, rho):
     return PyReedsSheppPath(q0, q1, rho).distance()
@@ -89,3 +100,6 @@ def path_sample(q0, q1, rho, step_size):
 
 def path_type(q0, q1, rho):
     return PyReedsSheppPath(q0, q1, rho).type()
+
+def path_type_n_len(q0, q1, rho):
+    return PyReedsSheppPath(q0, q1, rho).type_n_len()

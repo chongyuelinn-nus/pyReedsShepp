@@ -2,6 +2,9 @@
 Reeds Shepp Path Library
 ======
 
+Modification from master:
+added fn to get length and rev/fwd action.
+
 |build_status|
 
 Overview

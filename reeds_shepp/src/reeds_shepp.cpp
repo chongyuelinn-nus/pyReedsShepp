@@ -533,6 +533,12 @@ ReedsSheppStateSpace::ReedsSheppPath::ReedsSheppPath(const ReedsSheppPathSegment
 {
     length_[0] = t; length_[1] = u; length_[2] = v; length_[3] = w; length_[4] = x;
     totalLength_ = fabs(t) + fabs(u) + fabs(v) + fabs(w) + fabs(x);
+    _t = t;
+    _u = u;
+    _v = v;
+    _w = w;
+    _x = x;
+
 }
 
 
@@ -554,6 +560,19 @@ void ReedsSheppStateSpace::type(double q0[3], double q1[3], ReedsSheppPathTypeCa
     ReedsSheppPath path = reedsShepp(q0, q1);
     for (int i=0;i<5;++i)
         cb(path.type_[i], user_data);
+    return;
+}
+
+void ReedsSheppStateSpace::type_n_len(double q0[3], double q1[3], ReedsSheppPathTypeNLenCallback cb, void* user_data)
+{
+    ReedsSheppPath path = reedsShepp(q0, q1);
+    for (int i=0;i<5;++i)
+        cb(path.type_[i], user_data);
+    cb(path._t, user_data);
+    cb(path._u, user_data);
+    cb(path._v, user_data);
+    cb(path._w, user_data);
+    cb(path._x, user_data);
     return;
 }
 
